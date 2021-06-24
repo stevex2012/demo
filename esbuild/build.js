@@ -3,4 +3,5 @@ require('esbuild').build({
   bundle: true,
   outfile: 'out.js',
   sourcemap: true,
+  
 }).catch(() => process.exit(1))
