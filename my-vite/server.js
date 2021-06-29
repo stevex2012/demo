@@ -11,6 +11,22 @@ const { Z_DEFLATED } = require('zlib');
 const app = new Koa();
 const PORT = 3000;
 
+
+function __require(file,module){
+  if(module){// es6
+    return module
+  }else{
+    // 判断es5
+  }
+}
+// es5 to es6
+function es5toes6(file){
+  return `
+    
+  `
+}
+
+
 app.use(async ctx => {
   
   
@@ -29,9 +45,26 @@ app.use(async ctx => {
 
     const file = fs.readFileSync(`${rPath}${fileUrl}/index.js`)
 
+    
     ctx.type = 'application/javascript'
 
-    ctx.body = file
+    // ctx.body = `(function (){
+    //   ${file}
+    //   export default {}
+    // })()`
+    // es5 ---> es6
+    // 循环require
+
+    ctx.body = `
+      function require(){
+        return {}
+      }
+      var module = {
+        exports: {}
+      }
+      ${file}
+      export default {}
+    `
 
   }else if(reqUrl.endsWith('.js')) {
     // let rPath = path.resolve(__dirname)
