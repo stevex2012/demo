@@ -43,59 +43,96 @@ app.use(async ctx => {
 
     const fileUrl = reqUrl.replace('/modules', '')
 
-    const file = fs.readFileSync(`${rPath}${fileUrl}/index.js`)
+    // package.json
+    const pkg = fs.readFileSync(`${rPath}${fileUrl}/package.json`)
+
+
+    ctx.type = 'application/javascript'
+    if(pkg.module){
+      // const 
+      const esMoudleFile = fs.readFileSync(`${rPath}${fileUrl}/${pkg.module}`)
+      ctx.body = esMoudleFile
+      return
+    }
+
+    // const file = fs.readFileSync(`${rPath}${fileUrl}/index.js`, 'utf-8')
 
     
-    ctx.type = 'application/javascript'
 
+    // require function
+    require('esbuild')
+      .buildSync({
+        entryPoints: [`${rPath}${fileUrl}/index.js`],
+        bundle: true,
+        format: 'esm',
+        outfile: `./dist/${reqUrl}.js`
+      })
+    console.log('---------')
+    const newFile =  fs.readFileSync(`./dist/${reqUrl}.js`,'utf-8')
+      // .transformSync(`${newFile}`, {
+      //   format: 'esm',
+      // })
+
+    // console.log('----esModuleCode', newFile)
+    console.log('read---------',reqUrl)
     // ctx.body = `(function (){
     //   ${file}
     //   export default {}
     // })()`
     // es5 ---> es6
     // 循环require
+    ctx.body = newFile
+    // ctx.body = `
+    //   function require(){
+    //     return {}
+    //   }
+    //   var module = {
+    //     exports: {}
+    //   }
+    //   ${file}
+    //   export default {}
+    // `
 
-    ctx.body = `
-      function require(){
-        return {}
-      }
-      var module = {
-        exports: {}
-      }
-      ${file}
-      export default {}
-    `
-
-  }else if(reqUrl.endsWith('.js')) {
+  }else if(reqUrl.endsWith('.js') || reqUrl.endsWith('.jsx') ) {
     // let rPath = path.resolve(__dirname)
     let rPath = path.resolve(__dirname, './src')
     // console.log('-rPath', rPath)
     // 分析 file conetent，解析出 from ’react' 这种，添加规则 @/modules reaplace ast
     const file = fs.readFileSync(`${rPath}${reqUrl}`, 'utf-8')
-    // file.replace('')
-    const ast = parser.parse(file, {
+
+    
+    const tFile = require("@babel/core").transformSync(file, {
+      plugins: ["@babel/plugin-transform-react-jsx"],
+    });
+
+    // console.log('---transformCode', tFile)
+
+    const ast = parser.parse(tFile.code, {
       sourceType: 'module'
     });
-    
-    
+   
+    // console.log('---ast')
 
+    //修改路径
     traverse(ast, {
       ImportDeclaration({node}){
-        
+
         if(!node.source.value.includes('.js')){
           node.source.value = `/modules/${node.source.value}`
         }
-        // console.log('node.source', node.source)
       }
     })
-    const result = babel.transformFromAstSync(ast, file)
-    // console.log('result.code', result.code)
+    
+    const result = babel.transformFromAstSync(ast, tFile.code)
+    // console.log('result.code', result)
+    
+    // ctx.body = result.code
     ctx.type = 'application/javascript'
-
     ctx.body = result.code
 
-  }else {
+  }else{
 
+    
   }
 });
 
