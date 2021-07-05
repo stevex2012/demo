@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<script>
+  const  socket = new WebSocket(
+      `ws://localhost:3000`
+    )
+  socket.addEventListener('open', function (event) {
+    // socket.send('Hello Server!12wrwer');
+  });
+
+  // Listen for messages
+  socket.addEventListener('message', function (event) {
+      console.log('Message from server ', event.data);
+      if(event.data === 'reload'){
+        // window.location.reload()
+        console.log('---reload')
+      }
+  });
+</script>
+
+<!-- <script src="./index.js"></script> -->
+
+<body>
+  <h1>222</h1>
+</body>
+</html>

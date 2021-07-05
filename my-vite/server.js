@@ -7,29 +7,37 @@ const path = require('path')
 const babel = require('@babel/core')
 const traverse = require('@babel/traverse').default
 const parser = require('@babel/parser');
-const { Z_DEFLATED } = require('zlib');
-const app = new Koa();
+// const app = new Koa();
 const PORT = 3000;
 
+const websockify = require('koa-websocket')
 
-function __require(file,module){
-  if(module){// es6
-    return module
-  }else{
-    // 判断es5
+const app = websockify(new Koa())
+
+// io.on('connection', client => { 
+//   client.on('event', data => { 
+//     console.log('event')
+//   });
+//   client.on('disconnect', () => { 
+//     console.log('disconnect')
+//    });
+// });
+
+
+const server = require('http').createServer(app.callback());
+
+
+
+
+fs.watch('./src', { encoding: 'utf-8' }, (eventType, filename) => {
+  if (filename) {
+    console.log(filename);
+    // Prints: <Buffer ...> 如何刷新浏览器 window.reload()
+    // socket 通信
   }
-}
-// es5 to es6
-function es5toes6(file){
-  return `
-    
-  `
-}
-
+});
 
 app.use(async ctx => {
-  
-  
   
   const reqUrl = ctx.request.url
   if(reqUrl === '/'){
@@ -137,5 +145,7 @@ app.use(async ctx => {
 });
 
 // app.
+
+// app.listen(PORT, () => console.log('server is running at port ' + PORT));
 
 app.listen(PORT, () => console.log('server is running at port ' + PORT));
