@@ -2,8 +2,11 @@ import { Switch, Route } from '@modern-js/runtime/router';
 
 import './App.css';
 
-const App = () => (
+const App = () =>    (
   <Switch>
+
+
+
     <Route exact={true} path="/">
       <div className="container">
         <main>
