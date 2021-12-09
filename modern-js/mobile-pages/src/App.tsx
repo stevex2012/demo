@@ -1,12 +1,9 @@
-import { Switch, Route } from '@modern-js/runtime/router';
+import { Switch, Route } from "@modern-js/runtime/router";
 
-import './App.css';
+import "./App.css";
 
-const App = () =>    (
+const App = () => (
   <Switch>
-
-
-
     <Route exact={true} path="/">
       <div className="container">
         <main>
@@ -34,7 +31,8 @@ const App = () =>    (
               href="https://modernjs.dev/docs/community"
               target="_blank"
               rel="noopener noreferrer"
-              className="card">
+              className="card"
+            >
               <h2>Community </h2>
             </a>
           </div>
@@ -43,7 +41,8 @@ const App = () =>    (
           <a
             href="https://modernjs.dev"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             Powered by Modern.js
           </a>
         </footer>
