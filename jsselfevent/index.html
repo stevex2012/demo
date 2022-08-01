@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    //   create
+    var newEvent = document.createEvent("CustomEvent");
+
+    // init
+    newEvent.initEvent("myevent", true, true);
+
+    document.addEventListener("myevent", (e) => {
+      console.log("=e", e);
+    });
+    document.dispatchEvent(newEvent);
+    var el = document.querySelector("#root");
+    el.dispatchEvent(newEvent);
+  </script>
+</html>
