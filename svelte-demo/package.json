@@ -20,6 +20,8 @@
     "vite": "^3.1.0"
   },
   "dependencies": {
-    "marked": "^4.1.0"
+    "elizabot": "^0.0.3",
+    "marked": "^4.1.0",
+    "svelte-spa-router": "^3.3.0"
   }
 }
