@@ -1,5 +1,25 @@
 {
-	"dependencies": {
-		"elizabot": "^0.0.3"
-	}
+  "dependencies": {
+    "base2048": "^2.0.2",
+    "elizabot": "^0.0.3"
+  },
+  "name": "demo",
+  "description": "demo for learns",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevex2012/demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevex2012/demo/issues"
+  },
+  "homepage": "https://github.com/stevex2012/demo#readme"
 }
